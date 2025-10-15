@@ -14,9 +14,20 @@ pipeline {
             }
         }
 
+        stage('Cleanup Containers') {
+            steps {
+                sh '''
+                    echo "Cleaning up old containers and networks..."
+                    docker compose down || true
+                    docker rm -f db_container web_container || true
+                    docker network prune -f || true
+                '''
+            }
+        }
+
         stage('Build Images') {
             steps {
-                // The correct syntax is `docker compose build`, not `docker compose --build`
+                // The correct syntax is `docker compose build`
                 sh 'docker compose build'
             }
         }
@@ -28,7 +39,7 @@ pipeline {
                     if docker compose ps webapp >/dev/null 2>&1; then
                         docker compose run --rm webapp pytest || echo "No tests found"
                     else
-                        echo "⚠️ No webapp service found in docker-compose.yml"
+                        echo "No webapp service found in docker-compose.yml"
                     fi
                 '''
             }

@@ -6,7 +6,7 @@ import requests
 from waitress import serve
 
 app = Flask(__name__)
-
+#test jenkins
 DB_URL = "http://db_container:5001/records"
 
 model_path = os.path.join(os.path.dirname(__file__), 'model.pkl')

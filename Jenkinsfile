@@ -27,14 +27,14 @@ pipeline {
 
         stage('Build Images') {
             steps {
-                // The correct syntax is `docker compose build`
+                
                 sh 'docker compose build'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Run pytest only if the 'webapp' service exists; skip otherwise
+                
                 sh '''
                     if docker compose ps webapp >/dev/null 2>&1; then
                         docker compose run --rm webapp pytest || echo "No tests found"

@@ -10,13 +10,13 @@ pipeline {
 
         stage('Show Workspace') {
             steps {
-                bat 'cd'
+                sh 'cd'
             }
         }
         
         stage('Build Images') {
             steps {
-                bat 'docker-compose build'
+                sh 'docker-compose build'
             }
         }
 
@@ -29,13 +29,13 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'docker run --rm webapp pytest || echo "No tests found"'
+                sh 'docker run --rm webapp pytest || echo "No tests found"'
             }
         }
 
         stage('Deploy Containers') {
             steps {
-                bat 'docker-compose up -d'
+                sh 'docker-compose up -d'
             }
         }
     }
